@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "check": "pnpm lint && pnpm typecheck && pnpm test && node scripts/check-unicode.mjs --all",
-    "build:apk": "eas build -p android --profile personal --non-interactive",
+    "build:apk": "npx --yes eas-cli build -p android --profile personal --non-interactive",
     "prepare": "husky"
   },
   "jest": {
