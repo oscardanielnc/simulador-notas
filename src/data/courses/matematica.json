@@ -3,7 +3,7 @@
   "name": "Matemática",
   "code": "0000BA0102",
   "credits": 3,
-  "version": 2,
+  "version": 3,
   "childWeightUnit": "percent",
   "children": [
     {
@@ -13,18 +13,21 @@
       "children": [
         {
           "id": "u1-te",
-          "name": "PC/TE",
-          "weight": 15
+          "name": "TE",
+          "weight": 15,
+          "fullName": "Trabajo encargado"
         },
         {
           "id": "u1-ex",
           "name": "EXAM",
-          "weight": 75
+          "weight": 75,
+          "fullName": "Examen parcial"
         },
         {
           "id": "u1-es",
           "name": "ES",
-          "weight": 10
+          "weight": 10,
+          "fullName": "Evaluaciones sumativas"
         }
       ]
     },
@@ -35,18 +38,21 @@
       "children": [
         {
           "id": "u2-te",
-          "name": "PC/TE",
-          "weight": 15
+          "name": "TE",
+          "weight": 15,
+          "fullName": "Trabajo encargado"
         },
         {
           "id": "u2-ex",
           "name": "EXAM",
-          "weight": 75
+          "weight": 75,
+          "fullName": "Examen parcial"
         },
         {
           "id": "u2-es",
           "name": "ES",
-          "weight": 10
+          "weight": 10,
+          "fullName": "Evaluaciones sumativas"
         }
       ]
     },
@@ -57,18 +63,21 @@
       "children": [
         {
           "id": "u3-te",
-          "name": "PC/TE",
-          "weight": 15
+          "name": "TE",
+          "weight": 15,
+          "fullName": "Trabajo encargado"
         },
         {
           "id": "u3-ex",
           "name": "EXAM",
-          "weight": 75
+          "weight": 75,
+          "fullName": "Examen final"
         },
         {
           "id": "u3-es",
           "name": "ES",
-          "weight": 10
+          "weight": 10,
+          "fullName": "Evaluaciones sumativas"
         }
       ]
     }

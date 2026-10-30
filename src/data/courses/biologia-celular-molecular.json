@@ -3,7 +3,7 @@
   "name": "Biología Celular y Molecular",
   "code": "0000BA0106",
   "credits": 3,
-  "version": 2,
+  "version": 3,
   "childWeightUnit": "percent",
   "children": [
     {
@@ -13,7 +13,7 @@
       "children": [
         {
           "id": "u1-te",
-          "name": "PC/TE",
+          "name": "TE",
           "fullName": "Trabajos encargados",
           "weight": 20
         },
@@ -38,7 +38,7 @@
       "children": [
         {
           "id": "u2-te",
-          "name": "PC/TE",
+          "name": "TE",
           "fullName": "Trabajos encargados",
           "weight": 20
         },
@@ -63,7 +63,7 @@
       "children": [
         {
           "id": "u3-te",
-          "name": "PC/TE",
+          "name": "TE",
           "fullName": "Trabajos encargados",
           "weight": 20
         },
