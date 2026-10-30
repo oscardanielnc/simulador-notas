@@ -25,7 +25,7 @@ export function AverageCard({ average, totalCourses }: Props) {
           {es.home.progress(average.completeCourses, totalCourses, average.credits)}
         </Text>
       </View>
-      <ProgressRing value={average.value} size={76} />
+      <ProgressRing value={average.value} size={80} tone="dark" />
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { formatGrade, isFailing, roundOfficial } from '@/core/grading';
+import { formatGrade, isFailing } from '@/core/grading';
 import type { Course } from '@/core/tree';
 import { es } from '@/i18n/es';
 import { color, font, gradeColor, numbers, radius, selectable, shadow, size } from '@/theme/tokens';
@@ -35,7 +35,7 @@ export function CourseCard({ course, value, complete, onPress }: Props) {
       <Text style={[styles.value, { color: gradeColor(isFailing(value)) }]}>
         {formatGrade(value)}
       </Text>
-      <ProgressRing value={value} size={44} label={String(roundOfficial(value))} />
+      <ProgressRing value={value} size={36} tone="light" />
     </Pressable>
   );
 }
@@ -62,5 +62,5 @@ const styles = StyleSheet.create({
   },
   tagText: { fontFamily: font.semibold, fontSize: size.small, color: color.onDark },
   code: { ...numbers, fontFamily: font.regular, fontSize: size.small, color: color.muted },
-  value: { ...numbers, fontFamily: font.semibold, fontSize: 18 },
+  value: { ...numbers, fontFamily: font.semibold, fontSize: 20 },
 });

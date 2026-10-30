@@ -25,7 +25,7 @@ interface Props {
   parent: GradeNode;
   node: GradeNode;
   grades: CourseGrades;
-  selectedId: string;
+  selectedId: string | null;
   onSelect: (id: string) => void;
   onDrill: (id: string) => void;
 }

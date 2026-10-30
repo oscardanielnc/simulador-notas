@@ -31,6 +31,12 @@ Selection border: 2.5 dp `secondary`. Every card reserves the 2.5 dp transparent
 
 Value changes: no animation on numbers (instant). Progress bar and ring: 150 ms ease-out. Selection border: 120 ms fade. Haptic selection tick on each integer.
 
-## Ring (changed 2026-10-30)
+## Ring (changed twice on 2026-10-30)
 
-Every ring sits on a white disc (soft chip shadow), on dark and light cards alike: track `tint`, progress `accent`, or `danger` when < 10.5. The center shows the rounded grade in `text` or `danger`. Replaces the white/`dangerOnDark` ring on purple, which Oscar found low-contrast.
+- Lavender cards (home course cards): ring with track `track`, fill `secondary`, or `danger` when < 10.5. No label.
+- Dark cards (final grade, general average): one ring, no disc, no label. Groove `#40389A` (darker than the card), fill a diagonal gradient `#C9C3FF` → `#FFFFFF`; `danger` stays as is when < 10.5. Nothing is drawn at 0. Inspired by iOS Activity rings: dark groove, bright fill.
+- Rejected: white/22% track with pink fill (low contrast), white disc with a ring and the number inside (Oscar: "círculo dentro de círculo").
+
+## Editor sheet (changed 2026-10-30)
+
+Hidden until the first tap on a grade; slides up (220 ms). Background `tint`, upward shadow (`text`, 18%, blur 20, elevation 24), a grabber handle (40×5, `muted`) that hides it. Ruler and buttons sit on white so they stand out from the sheet.

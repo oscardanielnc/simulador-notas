@@ -24,6 +24,7 @@ export const es = {
     decrease: 'Bajar nota',
     increase: 'Subir nota',
     ruler: 'Regla de notas',
+    close: 'Ocultar editor',
   },
   a11y: {
     real: 'Nota real',

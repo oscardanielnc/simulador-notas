@@ -36,10 +36,18 @@ describe('course screen', () => {
     expect(screen.getByText(/Solo se guardan las notas con estrella/)).toBeTruthy();
   });
 
-  it('starts every grade at 0 with the final grade selected', async () => {
+  it('starts every grade at 0 with the editor hidden', async () => {
     await renderCourse('matematica');
-    expect(screen.getAllByText('Nota final')).toHaveLength(2); // final card + sheet title
     expect(screen.getAllByText('0.00')).toHaveLength(3); // one per unit
+    expect(screen.queryByLabelText('Subir nota')).toBeNull();
+  });
+
+  it('the first tap opens the editor and the handle hides it', async () => {
+    await renderCourse('matematica');
+    await fireEvent.press(screen.getByText('Nota final'));
+    expect(screen.getAllByText('Nota final')).toHaveLength(2); // final card + sheet title
+    await fireEvent.press(screen.getByLabelText('Ocultar editor'));
+    expect(screen.queryByLabelText('Subir nota')).toBeNull();
   });
 
   it('selecting a chip shows its full name in the sheet', async () => {

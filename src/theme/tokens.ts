@@ -17,6 +17,9 @@ export const color = {
   starOnDark: '#CECBF6',
 } as const;
 
+/** Ring on the dark cards: a darker groove and a lavender-to-white fill (design/tokens.md § Ring). */
+export const ring = { track: '#40389A', from: '#C9C3FF', to: '#FFFFFF' } as const;
+
 export const font = {
   regular: 'PlusJakartaSans_400Regular',
   medium: 'PlusJakartaSans_500Medium',

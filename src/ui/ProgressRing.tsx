@@ -1,33 +1,29 @@
 import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedProps,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Circle } from 'react-native-svg';
+import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 import { isFailing } from '@/core/grading';
-import { color, font, motion, numbers, shadow } from '@/theme/tokens';
+import { color, motion, ring } from '@/theme/tokens';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-const R = 38;
+const R = 40;
 const C = 2 * Math.PI * R;
 
 interface Props {
   /** Grade 0..20. */
   value: number;
   size: number;
-  /** Text in the middle, e.g. the rounded grade. */
-  label?: string;
+  /** `dark` for the filled purple cards, `light` for the lavender ones. */
+  tone: 'dark' | 'light';
 }
 
-/**
- * Ring on a white disc: the same colors on the dark and the light cards,
- * so red and purple always sit on white (design/tokens.md § Ring).
- */
-export function ProgressRing({ value, size, label }: Props) {
+/** One ring that fills up; red below 10.5 (design/tokens.md § Ring). */
+export function ProgressRing({ value, size, tone }: Props) {
   const progress = useSharedValue(value / 20);
   useEffect(() => {
     progress.set(
@@ -41,42 +37,36 @@ export function ProgressRing({ value, size, label }: Props) {
     strokeDasharray: [C * progress.get(), C],
   }));
   const failing = isFailing(value);
+  const dark = tone === 'dark';
+  const stroke = failing ? color.danger : dark ? 'url(#ring)' : color.secondary;
   return (
-    <View style={[styles.disc, { width: size, height: size, borderRadius: size / 2 }]}>
-      <Svg width={size} height={size} viewBox="0 0 100 100">
-        <Circle cx={50} cy={50} r={R} fill="none" stroke={color.tint} strokeWidth={9} />
-        <AnimatedCircle
-          cx={50}
-          cy={50}
-          r={R}
-          fill="none"
-          stroke={failing ? color.danger : color.accent}
-          strokeWidth={9}
-          strokeLinecap="round"
-          transform="rotate(-90 50 50)"
-          animatedProps={animatedProps}
-        />
-      </Svg>
-      {label !== undefined && (
-        <Text
-          style={[
-            styles.label,
-            { fontSize: size * 0.3, color: failing ? color.danger : color.text },
-          ]}
-        >
-          {label}
-        </Text>
-      )}
-    </View>
+    <Svg width={size} height={size} viewBox="0 0 100 100">
+      <Defs>
+        <LinearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+          <Stop offset="0" stopColor={ring.from} />
+          <Stop offset="1" stopColor={ring.to} />
+        </LinearGradient>
+      </Defs>
+      <Circle
+        cx={50}
+        cy={50}
+        r={R}
+        fill="none"
+        stroke={dark ? ring.track : color.track}
+        strokeWidth={dark ? 11 : 12}
+      />
+      <AnimatedCircle
+        cx={50}
+        cy={50}
+        r={R}
+        fill="none"
+        stroke={stroke}
+        strokeOpacity={value > 0 ? 1 : 0}
+        strokeWidth={dark ? 11 : 12}
+        strokeLinecap="round"
+        transform="rotate(-90 50 50)"
+        animatedProps={animatedProps}
+      />
+    </Svg>
   );
 }
-
-const styles = StyleSheet.create({
-  disc: {
-    backgroundColor: color.bg,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...shadow.chip,
-  },
-  label: { ...numbers, position: 'absolute', fontFamily: font.semibold },
-});

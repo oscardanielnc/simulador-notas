@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { findNode, ROOT_ID, type GradeNode } from '@/core/tree';
@@ -23,16 +24,16 @@ const titleOf = (node: GradeNode) =>
       ? `${node.name} · ${node.fullName}`
       : node.name;
 
-/** Course screen: tree on top, editor sheet fixed at the bottom; both share the selection. */
+/** Course screen: tree on top, editor sheet at the bottom once something is tapped (F02, F03). */
 export function CourseRoute({ courseId, nodeId = ROOT_ID, onBack, onDrill }: Props) {
   const course = courseById(courseId);
   const head = course && findNode(course.root, nodeId);
-  const [selectedId, setSelectedId] = useState(nodeId);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
   if (!course || !head) {
     return <Text style={styles.missing}>{es.course.notFound}</Text>;
   }
-  const selected = findNode(head, selectedId) ?? head;
+  const selected = selectedId === null ? undefined : findNode(head, selectedId);
   return (
     <View style={[styles.screen, { paddingTop: insets.top + 8 }]}>
       <View style={styles.header}>
@@ -54,17 +55,22 @@ export function CourseRoute({ courseId, nodeId = ROOT_ID, onBack, onDrill }: Pro
           courseId={courseId}
           head={head}
           headLabel={titleOf(head)}
-          selectedId={selected.id}
+          selectedId={selected?.id ?? null}
           onSelect={setSelectedId}
           onDrill={onDrill}
         />
       </View>
-      <EditorSheet
-        key={selected.id}
-        courseId={courseId}
-        node={selected}
-        title={titleOf(selected)}
-      />
+      {selected && (
+        <Animated.View entering={SlideInDown.duration(220)} exiting={SlideOutDown.duration(180)}>
+          <EditorSheet
+            key={selected.id}
+            courseId={courseId}
+            node={selected}
+            title={titleOf(selected)}
+            onClose={() => setSelectedId(null)}
+          />
+        </Animated.View>
+      )}
     </View>
   );
 }

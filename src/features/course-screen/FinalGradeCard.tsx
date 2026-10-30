@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { formatGrade, roundOfficial } from '@/core/grading';
+import { formatGrade } from '@/core/grading';
 import { es } from '@/i18n/es';
 import { color, font, numbers, radius, selectable, shadow, size } from '@/theme/tokens';
 import { ProgressRing } from '@/ui/ProgressRing';
@@ -31,7 +31,7 @@ export function FinalGradeCard({ label, value, selected, real, onPress }: Props)
           <Text style={styles.outOf}> {es.course.outOf}</Text>
         </Text>
       </View>
-      <ProgressRing value={value} size={76} label={String(roundOfficial(value))} />
+      <ProgressRing value={value} size={80} tone="dark" />
     </Pressable>
   );
 }

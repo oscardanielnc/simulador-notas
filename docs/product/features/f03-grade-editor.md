@@ -1,6 +1,6 @@
 # F03 · Grade editor (ruler slider)
 
-- Fixed bottom sheet, light lavender, top corners 28.
+- Bottom sheet, hidden until something is selected; `tint` background, upward shadow, grabber handle that hides it, top corners 28 (design/tokens.md § Editor sheet).
 - Row 1: selected element's **name only** (no extra explanation); a leaf with `fullName` shows "PC · Práctica calificada" + buttons "Ver real" / "Marcar real ★" / "Quitar real" (rules in grading-rules.md).
 - Row 2: the current integer, large (red if < 10.5).
 - Row 3: `−` button · ruler · `+` button.
