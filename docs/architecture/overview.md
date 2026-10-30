@@ -16,12 +16,14 @@ src/
     home/              general average card + course cards
     course-screen/     FinalGradeCard, CriterionCard, GradeChip, screen
     grade-editor/      EditorSheet, RulerPicker
+  compose/             screens that join features (CourseRoute = course-screen + grade-editor)
+  ui/                  shared visual pieces: StarIcon, ProgressRing, ProgressBar, Pill
   store/               grades.store.ts (Zustand + persist) — the only place that talks to storage
   theme/               tokens.ts, fonts
   i18n/es.ts           all user-facing strings (Spanish)
 ```
 
-Dependency rule: `core` imports nothing from the app. `features` import `core`, `store`, `theme`, `i18n`; never another feature. Forced with `import/no-restricted-paths`.
+Dependency rule: `core` imports nothing from the app. `features` import `core`, `data`, `store`, `theme`, `i18n`, `ui`; never another feature or a route. `compose` and `app` join features. Forced with `no-restricted-imports` in eslint.config.mjs.
 
 Data flow
 
