@@ -39,8 +39,10 @@ export default defineConfig(
   {
     files: ['scripts/**/*.mjs'],
     languageOptions: { globals: { process: 'readonly', console: 'readonly' } },
+    rules: { 'no-console': 'off' },
   },
   {
+    ignores: ['scripts/**'],
     rules: {
       'no-console': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
@@ -59,9 +61,7 @@ export default defineConfig(
     rules: {
       'no-restricted-imports': [
         'error',
-        {
-          patterns: [{ regex: '^(?!\./|\.\./)', message: 'core imports nothing outside itself.' }],
-        },
+        { patterns: [{ regex: '^[^.]', message: 'core imports nothing outside itself.' }] },
       ],
     },
   },

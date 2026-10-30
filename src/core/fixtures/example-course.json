@@ -1,6 +1,8 @@
 {
   "id": "example-course",
   "name": "Curso de ejemplo",
+  "code": "0000XX0000",
+  "credits": 3,
   "version": 1,
   "childWeightUnit": "percent",
   "children": [
