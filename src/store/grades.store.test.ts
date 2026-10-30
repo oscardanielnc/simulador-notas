@@ -3,18 +3,6 @@ import { courseById } from '@/data/courses';
 
 import { hydrate, useGradesStore } from './grades.store';
 
-jest.mock('expo-sqlite/kv-store', () => {
-  const data = new Map<string, string>();
-  return {
-    __esModule: true,
-    default: {
-      getItem: (k: string) => Promise.resolve(data.get(k) ?? null),
-      setItem: (k: string, v: string) => Promise.resolve(void data.set(k, v)),
-      removeItem: (k: string) => Promise.resolve(void data.delete(k)),
-    },
-  };
-});
-
 const MAT = 'matematica';
 const grades = () => useGradesStore.getState().grades[MAT] ?? {};
 
