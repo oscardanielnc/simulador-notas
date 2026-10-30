@@ -14,13 +14,14 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { es } from '@/i18n/es';
+import { isFailing } from '@/core/grading';
 import { color, font, numbers } from '@/theme/tokens';
 import { StarIcon } from '@/ui/StarIcon';
 
 /** Distance between two integers (ADR 0005: at least 32 dp). */
-export const STEP = 40;
+export const STEP = 48;
 const MAX = 20;
-const HEIGHT = 76;
+const HEIGHT = 100;
 const TICKS = Array.from({ length: MAX + 1 }, (_, i) => i);
 const clamp = (v: number) => {
   'worklet';
@@ -34,19 +35,26 @@ interface Props {
   star: number | null;
 }
 
-/** One floating number + line; grows and darkens as it nears the center. */
+/**
+ * One floating number + line. The number at the center grows into the big current grade,
+ * so the picker is the only place the value is shown (F03).
+ */
 function Tick({ i, pos, star }: { i: number; pos: SharedValue<number>; star: boolean }) {
   const near = useAnimatedStyle(() => {
     const d = Math.abs(i - pos.get());
     return {
-      opacity: interpolate(d, [0, 1, 4], [1, 0.6, 0.2], 'clamp'),
-      transform: [{ scale: interpolate(d, [0, 1, 3], [1.35, 1, 0.85], 'clamp') }],
+      opacity: interpolate(d, [0, 1, 4], [1, 0.55, 0.15], 'clamp'),
+      transform: [{ scale: interpolate(d, [0, 1, 3], [2.1, 1, 0.85], 'clamp') }],
     };
   });
   return (
     <View style={[styles.tick, { left: i * STEP }]}>
       <View style={styles.starSlot}>{star && <StarIcon size={14} />}</View>
-      <Animated.Text style={[styles.number, star && styles.realNumber, near]}>{i}</Animated.Text>
+      <Animated.Text
+        style={[styles.number, isFailing(i) && styles.failing, star && styles.realNumber, near]}
+      >
+        {i}
+      </Animated.Text>
       <View style={[styles.line, i % 5 === 0 && styles.longLine]} />
     </View>
   );
@@ -147,16 +155,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingBottom: 4,
   },
-  starSlot: { height: 16, justifyContent: 'center' },
+  starSlot: { height: 16, justifyContent: 'center', marginBottom: 14 },
   number: {
     ...numbers,
-    fontFamily: font.medium,
-    fontSize: 15,
+    fontFamily: font.semibold,
+    fontSize: 17,
     lineHeight: 22,
-    color: color.secondary,
-    marginBottom: 6,
+    color: color.text,
+    marginBottom: 16,
   },
-  realNumber: { fontFamily: font.semibold, color: color.strong },
+  failing: { color: color.danger },
+  realNumber: { color: color.accent },
   line: { width: 1.5, height: 10, borderRadius: 1, backgroundColor: color.muted },
   longLine: { height: 18 },
   indicator: {
@@ -164,7 +173,7 @@ const styles = StyleSheet.create({
     left: '50%',
     bottom: 0,
     width: 3,
-    height: 26,
+    height: 22,
     marginLeft: -1.5,
     borderRadius: 2,
     backgroundColor: color.accent,

@@ -3,11 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hasHiddenReal, rulerStar, showsReal, simValue } from '@/core/grades';
-import { isFailing } from '@/core/grading';
 import type { GradeNode } from '@/core/tree';
 import { es } from '@/i18n/es';
 import { useCourseGrades, useGradesStore } from '@/store/grades.store';
-import { color, font, gradeColor, numbers, radius, size } from '@/theme/tokens';
+import { color, font, radius } from '@/theme/tokens';
 import { Pill } from '@/ui/Pill';
 import { StarIcon } from '@/ui/StarIcon';
 
@@ -68,7 +67,6 @@ export function EditorSheet({ courseId, node, title }: Props) {
             ))}
         </View>
       </View>
-      <Text style={[styles.value, { color: gradeColor(isFailing(current)) }]}>{current}</Text>
       <View style={styles.ruler}>
         <RulerPicker value={current} onChange={change} star={rulerStar(node, grades)} />
       </View>
@@ -78,21 +76,22 @@ export function EditorSheet({ courseId, node, title }: Props) {
 
 const styles = StyleSheet.create({
   sheet: {
-    backgroundColor: color.tint,
+    backgroundColor: color.bg,
+    borderTopWidth: 1,
+    borderColor: color.track,
     borderTopLeftRadius: radius.sheet,
     borderTopRightRadius: radius.sheet,
     paddingTop: 16,
     paddingHorizontal: 16,
     shadowColor: color.text,
-    shadowOpacity: 0.18,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.14,
+    shadowRadius: 24,
+    shadowOffset: { width: 0, height: -8 },
     elevation: 24,
   },
-  onSheet: { backgroundColor: color.bg },
-  ruler: { marginHorizontal: -16 },
+  onSheet: { backgroundColor: color.tint },
+  ruler: { marginHorizontal: -16, marginTop: 4 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
   name: { flex: 1, fontFamily: font.semibold, fontSize: 14, color: color.text },
   actions: { flexDirection: 'row', gap: 6 },
-  value: { ...numbers, textAlign: 'center', fontFamily: font.semibold, fontSize: size.editor },
 });

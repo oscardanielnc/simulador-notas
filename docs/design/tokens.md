@@ -37,7 +37,9 @@ Value changes: no animation on numbers (instant). Progress bar and ring: 150 ms 
 - Dark cards (final grade, general average): one ring, no disc, no label. Groove `#40389A` (darker than the card), fill a diagonal gradient `#C9C3FF` → `#FFFFFF`; `danger` stays as is when < 10.5. Nothing is drawn at 0. Inspired by iOS Activity rings: dark groove, bright fill.
 - Rejected: white/22% track with pink fill (low contrast), white disc with a ring and the number inside (Oscar: "círculo dentro de círculo").
 
-## Editor sheet (changed 2026-10-30)
+## Editor sheet (final, 2026-10-30)
 
+Always visible. White background, 1 dp `track` hairline on top, upward shadow (`text`, 14%, blur 24, y −8), elevation 24: lavender cards above never blend into it. Pills inside use `tint`.
+The picker is the only place the current grade appears: floating numbers (17, semibold) 48 dp apart over short `muted` lines; the center number scales to 2.1× (≈ 36), neighbors fade to 0.15 at 4 steps. Numbers 0–10 in `danger`, the real grade in `accent` with ★ above it, center line `accent`. Rejected: separate big number (redundant), white ruler strip (looked like a ruler, hid the star), −/+ buttons.
 Always visible. Background `tint`, upward shadow (`text`, 18%, blur 20, elevation 24). The picker is floating numbers (15, scale 1.35 at center, opacity 0.2 at 4 steps) over short `muted` lines, 40 dp apart, center line `accent`. No handle, no −/+ buttons, no white ruler strip (rejected: looked like a ruler and hid the star).
 Hidden until the first tap on a grade; slides up (220 ms). Background `tint`, upward shadow (`text`, 18%, blur 20, elevation 24), a grabber handle (40×5, `muted`) that hides it. Ruler and buttons sit on white so they stand out from the sheet.

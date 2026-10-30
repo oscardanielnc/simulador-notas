@@ -2,8 +2,7 @@
 
 - Fixed bottom sheet, always visible; `tint` background, upward shadow, top corners 28 (design/tokens.md § Editor sheet).
 - Row 1: selected element's **name only** (no extra explanation); a leaf with `fullName` shows "PC · Práctica calificada" + buttons "Ver real" / "Marcar real ★" / "Quitar real" (rules in grading-rules.md).
-- Row 2: the current integer, large (red if < 10.5).
-- Row 3: the number picker, full width. No `−` / `+` buttons (removed 2026-10-30: dragging is enough).
+- Row 2: the number picker, full width; its center number, shown large, is the current grade (no separate big number, changed 2026-10-30). No `−` / `+` buttons (removed 2026-10-30: dragging is enough).
 
 Number picker (changed 2026-10-30)
 
