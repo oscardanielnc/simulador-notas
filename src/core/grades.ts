@@ -87,3 +87,9 @@ export function reconcile(grades: CourseGrades, root: GradeNode): CourseGrades {
   }
   return next;
 }
+
+/** Where the editor opens: the first leaf without a real grade, or the last leaf when all are real. */
+export function firstPending(node: GradeNode, grades: CourseGrades): GradeNode {
+  const all = leaves(node);
+  return all.find((l) => gradeOf(grades, l.id).real === null) ?? all[all.length - 1] ?? node;
+}

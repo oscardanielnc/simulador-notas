@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { firstPending } from '@/core/grades';
 import { findNode, ROOT_ID, type GradeNode } from '@/core/tree';
 import { courseById } from '@/data/courses';
 import { CourseTree } from '@/features/course-screen/CourseTree';
 import { EditorSheet } from '@/features/grade-editor/EditorSheet';
 import { es } from '@/i18n/es';
+import { useGradesStore } from '@/store/grades.store';
 import { color, font, size } from '@/theme/tokens';
+import { BackIcon } from '@/ui/BackIcon';
 
 interface Props {
   courseId: string;
@@ -24,16 +26,19 @@ const titleOf = (node: GradeNode) =>
       ? `${node.name} · ${node.fullName}`
       : node.name;
 
-/** Course screen: tree on top, editor sheet at the bottom once something is tapped (F02, F03). */
+/** Course screen: tree on top, editor sheet always at the bottom (F02, F03). */
 export function CourseRoute({ courseId, nodeId = ROOT_ID, onBack, onDrill }: Props) {
   const course = courseById(courseId);
   const head = course && findNode(course.root, nodeId);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // Opens on the first grade still missing its real value (F02).
+  const [selectedId, setSelectedId] = useState(() =>
+    head ? firstPending(head, useGradesStore.getState().grades[courseId] ?? {}).id : nodeId,
+  );
   const insets = useSafeAreaInsets();
   if (!course || !head) {
     return <Text style={styles.missing}>{es.course.notFound}</Text>;
   }
-  const selected = selectedId === null ? undefined : findNode(head, selectedId);
+  const selected = findNode(head, selectedId) ?? head;
   return (
     <View style={[styles.screen, { paddingTop: insets.top + 8 }]}>
       <View style={styles.header}>
@@ -44,7 +49,7 @@ export function CourseRoute({ courseId, nodeId = ROOT_ID, onBack, onDrill }: Pro
           hitSlop={8}
           style={styles.back}
         >
-          <Text style={styles.backText}>←</Text>
+          <BackIcon />
         </Pressable>
         <Text style={styles.title} numberOfLines={2}>
           {head.id === ROOT_ID ? course.name : `${course.name} · ${head.name}`}
@@ -55,22 +60,17 @@ export function CourseRoute({ courseId, nodeId = ROOT_ID, onBack, onDrill }: Pro
           courseId={courseId}
           head={head}
           headLabel={titleOf(head)}
-          selectedId={selected?.id ?? null}
+          selectedId={selected.id}
           onSelect={setSelectedId}
           onDrill={onDrill}
         />
       </View>
-      {selected && (
-        <Animated.View entering={SlideInDown.duration(220)} exiting={SlideOutDown.duration(180)}>
-          <EditorSheet
-            key={selected.id}
-            courseId={courseId}
-            node={selected}
-            title={titleOf(selected)}
-            onClose={() => setSelectedId(null)}
-          />
-        </Animated.View>
-      )}
+      <EditorSheet
+        key={selected.id}
+        courseId={courseId}
+        node={selected}
+        title={titleOf(selected)}
+      />
     </View>
   );
 }
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backText: { fontFamily: font.semibold, fontSize: 16, color: color.strong },
   title: { flex: 1, fontFamily: font.semibold, fontSize: size.title, color: color.text },
   body: { flex: 1 },
   missing: { margin: 24, fontFamily: font.medium, color: color.text },

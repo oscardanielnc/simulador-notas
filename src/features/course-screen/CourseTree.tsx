@@ -14,7 +14,7 @@ interface Props {
   /** Header card: the course root, or the node drilled into. */
   head: GradeNode;
   headLabel: string;
-  selectedId: string | null;
+  selectedId: string;
   onSelect: (id: string) => void;
   onDrill: (id: string) => void;
 }

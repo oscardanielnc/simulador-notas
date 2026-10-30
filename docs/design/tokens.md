@@ -39,4 +39,5 @@ Value changes: no animation on numbers (instant). Progress bar and ring: 150 ms 
 
 ## Editor sheet (changed 2026-10-30)
 
+Always visible. Background `tint`, upward shadow (`text`, 18%, blur 20, elevation 24). The picker is floating numbers (15, scale 1.35 at center, opacity 0.2 at 4 steps) over short `muted` lines, 40 dp apart, center line `accent`. No handle, no −/+ buttons, no white ruler strip (rejected: looked like a ruler and hid the star).
 Hidden until the first tap on a grade; slides up (220 ms). Background `tint`, upward shadow (`text`, 18%, blur 20, elevation 24), a grabber handle (40×5, `muted`) that hides it. Ruler and buttons sit on white so they stand out from the sheet.

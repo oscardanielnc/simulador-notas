@@ -1,5 +1,6 @@
 import template from './fixtures/example-course.json';
 import {
+  firstPending,
   gradeOf,
   hasHiddenReal,
   markReal,
@@ -91,5 +92,15 @@ describe('reconcile', () => {
     const g = reconcile({ pc1: { sim: 4, real: null }, gone: { sim: 9, real: 9 } }, course.root);
     expect(g).toEqual({ pc1: { sim: 4, real: null } });
     expect(simValue(node('pc'), g)).toBe(1);
+  });
+});
+
+describe('firstPending', () => {
+  it('picks the first leaf without real, then the last leaf', () => {
+    let g = markReal(setSubtree({}, node('pc1'), 14), node('pc1'));
+    expect(firstPending(course.root, g).id).toBe('pc2');
+    for (const id of ['pc2', 'pc3', 'pc4', 'lab1', 'lab2', 'ex1', 'ex2']) g = markReal(g, node(id));
+    expect(firstPending(course.root, g).id).toBe('ex2');
+    expect(firstPending(node('lab'), {}).id).toBe('lab1');
   });
 });

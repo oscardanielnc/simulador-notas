@@ -11,3 +11,4 @@
 | 0007 | [Plain Zustand persist over SQLite + Drizzle](0007-kv-storage.md)                      | Accepted           |
 | 0008 | [General average from complete courses only](0008-general-average.md)                  | Superseded by 0009 |
 | 0009 | [General average from day one; only real grades persist](0009-average-from-day-one.md) | Accepted           |
+| 0010 | [Small APK: arm64 only, R8, compressed native libraries](0010-small-apk.md)            | Accepted           |
