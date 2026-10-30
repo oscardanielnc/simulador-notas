@@ -1,0 +1,103 @@
+{
+  "id": "antropologia",
+  "name": "Antropología",
+  "code": "0000AGEL0102",
+  "credits": 2,
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "u1",
+      "name": "Unidad I",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u1-ep",
+          "name": "EP1",
+          "fullName": "Examen parcial I",
+          "weight": 30
+        },
+        {
+          "id": "u1-pt",
+          "name": "PT",
+          "fullName": "Plan de trabajo",
+          "weight": 15
+        },
+        {
+          "id": "u1-pc",
+          "name": "PC",
+          "fullName": "Prácticas calificadas",
+          "weight": 15
+        },
+        {
+          "id": "u1-campo",
+          "name": "CAMPO",
+          "fullName": "Prácticas de campo",
+          "weight": 40
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "name": "Unidad II",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u2-ep",
+          "name": "EP2",
+          "fullName": "Examen parcial II",
+          "weight": 30
+        },
+        {
+          "id": "u2-pt",
+          "name": "PT",
+          "fullName": "Plan de trabajo",
+          "weight": 15
+        },
+        {
+          "id": "u2-pc",
+          "name": "PC",
+          "fullName": "Prácticas calificadas",
+          "weight": 15
+        },
+        {
+          "id": "u2-campo",
+          "name": "CAMPO",
+          "fullName": "Prácticas de campo",
+          "weight": 40
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "name": "Unidad III",
+      "weight": 40,
+      "children": [
+        {
+          "id": "u3-ef",
+          "name": "EF",
+          "fullName": "Examen final",
+          "weight": 30
+        },
+        {
+          "id": "u3-pt",
+          "name": "PT",
+          "fullName": "Plan de trabajo",
+          "weight": 15
+        },
+        {
+          "id": "u3-pc",
+          "name": "PC",
+          "fullName": "Prácticas calificadas",
+          "weight": 15
+        },
+        {
+          "id": "u3-campo",
+          "name": "CAMPO",
+          "fullName": "Prácticas de campo",
+          "weight": 40
+        }
+      ]
+    }
+  ]
+}

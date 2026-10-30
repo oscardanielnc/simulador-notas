@@ -1,0 +1,25 @@
+{
+  "id": "filosofia-general",
+  "name": "Filosofía General",
+  "code": "0000AGEL0215",
+  "credits": 2,
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "u1",
+      "name": "Unidad I",
+      "weight": 30
+    },
+    {
+      "id": "u2",
+      "name": "Unidad II",
+      "weight": 30
+    },
+    {
+      "id": "u3",
+      "name": "Unidad III",
+      "weight": 40
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "id": "matematica",
+  "name": "Matemática",
+  "code": "0000BA0102",
+  "credits": 3,
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "u1",
+      "name": "Unidad I",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u1-te",
+          "name": "TE1",
+          "weight": 15
+        },
+        {
+          "id": "u1-ex",
+          "name": "EX1",
+          "weight": 75
+        },
+        {
+          "id": "u1-es",
+          "name": "ES1",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "name": "Unidad II",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u2-te",
+          "name": "TE2",
+          "weight": 15
+        },
+        {
+          "id": "u2-ex",
+          "name": "EX2",
+          "weight": 75
+        },
+        {
+          "id": "u2-es",
+          "name": "ES2",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "name": "Unidad III",
+      "weight": 40,
+      "children": [
+        {
+          "id": "u3-te",
+          "name": "TE3",
+          "weight": 15
+        },
+        {
+          "id": "u3-ex",
+          "name": "EX3",
+          "weight": 75
+        },
+        {
+          "id": "u3-es",
+          "name": "ES3",
+          "weight": 10
+        }
+      ]
+    }
+  ]
+}

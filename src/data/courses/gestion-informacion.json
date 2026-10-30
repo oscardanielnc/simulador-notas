@@ -1,0 +1,25 @@
+{
+  "id": "gestion-informacion",
+  "name": "Gestión de la Información",
+  "code": "0000AGEL0101",
+  "credits": 3,
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "u1",
+      "name": "Unidad I",
+      "weight": 30
+    },
+    {
+      "id": "u2",
+      "name": "Unidad II",
+      "weight": 30
+    },
+    {
+      "id": "u3",
+      "name": "Unidad III",
+      "weight": 40
+    }
+  ]
+}

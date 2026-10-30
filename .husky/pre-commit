@@ -1,0 +1,2 @@
+node scripts/check-unicode.mjs
+pnpm exec lint-staged

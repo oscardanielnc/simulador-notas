@@ -1,0 +1,38 @@
+{
+  "id": "example-course",
+  "name": "Curso de ejemplo",
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "pc",
+      "name": "Prácticas",
+      "weight": 20,
+      "children": [
+        { "id": "pc1", "name": "PC1" },
+        { "id": "pc2", "name": "PC2" },
+        { "id": "pc3", "name": "PC3" },
+        { "id": "pc4", "name": "PC4" }
+      ]
+    },
+    {
+      "id": "lab",
+      "name": "Laboratorio",
+      "weight": 30,
+      "children": [
+        { "id": "lab1", "name": "LAB1" },
+        { "id": "lab2", "name": "LAB2" }
+      ]
+    },
+    {
+      "id": "ex",
+      "name": "Exámenes",
+      "weight": 50,
+      "childWeightUnit": "units",
+      "children": [
+        { "id": "ex1", "name": "EX1", "weight": 2 },
+        { "id": "ex2", "name": "EX2", "weight": 3 }
+      ]
+    }
+  ]
+}

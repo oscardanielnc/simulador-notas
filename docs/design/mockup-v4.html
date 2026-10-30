@@ -1,0 +1,51 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mockup v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEBF3;font-family:'Plus Jakarta Sans',sans-serif;padding:24px 16px;font-variant-numeric:tabular-nums}
+.ph{max-width:360px;margin:0 auto;background:#fff;border-radius:32px;padding:16px 14px 0;overflow:hidden;color:#26215C}
+.cd{border-radius:20px;padding:12px;cursor:pointer;border:2.5px solid transparent;box-shadow:0 2px 12px rgba(83,74,183,.08);position:relative}
+.sel{border-color:#7F77DD!important}.low{color:#E24B4A!important}
+.lb{font-size:12px;color:#7F77DD;display:flex;justify-content:space-between}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:10px}
+.ch{background:#fff;border-radius:14px;padding:6px 2px;text-align:center;cursor:pointer;border:2.5px solid transparent;position:relative;box-shadow:0 1px 6px rgba(83,74,183,.08)}
+.st{position:absolute;top:-7px;right:-5px;width:15px;height:15px}
+.ruler{position:relative;height:66px;overflow:hidden;touch-action:none;cursor:grab;user-select:none}
+.tk{position:absolute;bottom:0;width:1.5px;background:#AFA9EC}.tn{position:absolute;bottom:22px;font-size:12px;color:#7F77DD;transform:translateX(-50%)}
+.rs{position:absolute;bottom:40px;width:14px;height:14px;transform:translateX(-50%)}
+.bt{font-family:inherit;font-size:12px;padding:6px 12px;border-radius:999px;border:none;background:#EEEDFE;color:#3C3489;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+</style></head><body>
+<div class="ph">
+ <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="width:34px;height:34px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center">&larr;</span><span style="font-weight:600;font-size:16px">Curso de ejemplo</span></div>
+ <div id="root"></div><div id="tree" style="display:flex;flex-direction:column;gap:12px;margin:12px 0 14px"></div>
+ <div style="margin:0 -14px;background:#F6F5FE;border-radius:28px 28px 0 0;padding:14px 16px 18px">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px"><span id="sname" style="font-size:14px;font-weight:600"></span><span style="display:flex;gap:6px"><button class="bt" id="back">Ver real</button><button class="bt" id="rbtn"></button></span></div>
+  <div style="text-align:center;font-size:36px;font-weight:600" id="sval"></div>
+  <div style="display:flex;align-items:center;gap:6px"><button class="bt" id="mn" style="width:36px;height:36px;justify-content:center;font-size:18px">&minus;</button>
+   <div class="ruler" id="ruler" style="flex:1"><div id="strip" style="position:absolute;top:0;bottom:0;left:0"></div><div style="position:absolute;left:50%;top:14px;bottom:0;width:3px;border-radius:2px;background:#534AB7;transform:translateX(-1.5px)"></div></div>
+   <button class="bt" id="pl" style="width:36px;height:36px;justify-content:center;font-size:18px">+</button></div>
+ </div>
+</div>
+<script>
+const STAR=(c,cl)=>`<svg class="${cl}" viewBox="0 0 24 24"><path fill="${c}" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg>`;
+const L=(id,n,w,sim,real)=>({id,n,w,sim,real:real??null,k:[]});
+const T={id:'F',n:'Nota final',k:[{id:'PC',n:'Prácticas',w:20,k:[L('p1','PC1',1,14,14),L('p2','PC2',1,14,14),L('p3','PC3',1,16,16),L('p4','PC4',1,3,3)]},{id:'LB',n:'Laboratorio',w:30,k:[L('l1','LAB1',1,6,6),L('l2','LAB2',1,9,9)]},{id:'EX',n:'Exámenes',w:50,ku:'k',k:[L('e1','EX1',2,10,10),L('e2','EX2',3,14)]}]};
+const all=[];(function w(n,p){n.p=p;all.push(n);n.k.forEach(c=>w(c,n))})(T,null);
+const tw=n=>n.k.reduce((s,c)=>s+c.w,0),val=n=>n.k.length?n.k.reduce((s,c)=>s+val(c)*c.w/tw(n),0):n.sim,leaves=n=>n.k.length?n.k.flatMap(leaves):[n],isReal=n=>leaves(n).every(l=>l.real!==null&&l.sim===l.real);
+let sel=all.find(n=>n.id==='EX'),cur=12;const s=n=>n===sel?' sel':'',star=(n,c='#534AB7')=>isReal(n)?STAR(c,'st'):'',lo=x=>x<10.5?' low':'',pct=n=>Math.round(n.w/tw(n.p)*100)+'%';
+function render(){const F=val(T),a=F/20*251;
+document.getElementById('root').innerHTML=`<div class="cd${s(T)}" data-id="F" style="background:#534AB7;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:16px 18px">${star(T,'#CECBF6')}<div><div style="font-size:12px;opacity:.85">Nota final</div><div style="font-size:38px;font-weight:600">${F.toFixed(2)}<span style="font-size:14px;opacity:.75"> /20</span></div></div><svg width="80" height="80" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="${F<10.5?'#F09595':'#fff'}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${a} 251" transform="rotate(-90 50 50)"/></svg></div>`;
+document.getElementById('tree').innerHTML=T.k.map(g=>{const x=val(g);return `<div class="cd${s(g)}" data-id="${g.id}" style="background:#F6F5FE">${star(g)}<div class="lb"><span>${g.n}</span><span>${g.w}%</span></div><div class="${lo(x)}" style="font-size:24px;font-weight:600">${x.toFixed(2)}</div><div style="height:6px;border-radius:3px;background:#E4E2FA"><div style="height:6px;border-radius:3px;background:#7F77DD;width:${x/20*100}%"></div></div><div class="chips">${g.k.map(h=>`<div class="ch${s(h)}" data-id="${h.id}">${star(h)}<div style="font-size:11px;color:#7F77DD">${h.n}</div><div class="${lo(h.sim)}" style="font-size:17px;font-weight:600">${h.sim}</div><div style="font-size:11px;color:#AFA9EC">${g.ku?h.w+'k · ':''}${pct(h)}</div></div>`).join('')}</div></div>`}).join('');
+document.querySelectorAll('[data-id]').forEach(e=>e.onclick=ev=>{ev.stopPropagation();sel=all.find(n=>n.id===e.dataset.id);cur=Math.round(val(sel));render()});
+const leaf=!sel.k.length;document.getElementById('sname').textContent=sel.n;const sv=document.getElementById('sval');sv.textContent=cur;sv.className=lo(cur);
+const rb=document.getElementById('rbtn'),bb=document.getElementById('back');rb.style.display=leaf?'':'none';bb.style.display=leaves(sel).some(l=>l.real!==null&&l.sim!==l.real)?'':'none';
+if(leaf)rb.innerHTML=sel.real!==null&&sel.sim===sel.real?'Quitar real':'Marcar real '+STAR('#534AB7','').replace('<svg ','<svg width="12" height="12" ');ticks();place()}
+const S=32,strip=document.getElementById('strip'),ru=document.getElementById('ruler');
+function ticks(){const rl=leaves(sel).map(l=>l.real),r=!sel.k.length?sel.real:(rl.every(v=>v!==null&&v===rl[0])?rl[0]:null);let h='';for(let i=0;i<=20;i++){h+=`<div class="tk" style="left:${i*S}px;height:${i%5?12:22}px"></div><div class="tn" style="left:${i*S}px;${i===r?'color:#3C3489;font-weight:600':''}">${i}</div>${i===r?STAR('#534AB7','rs').replace('class="rs"',`class="rs" style="left:${i*S}px"`):''}`}strip.innerHTML=h}
+function place(){strip.style.transform=`translateX(${ru.clientWidth/2-cur*S}px)`}
+function setV(v){v=Math.max(0,Math.min(20,v));cur=v;leaves(sel).forEach(l=>l.sim=v);render()}
+let sx=null,s0=0;ru.onpointerdown=e=>{sx=e.clientX;s0=cur;ru.setPointerCapture(e.pointerId)};ru.onpointermove=e=>{if(sx===null)return;const v=Math.max(0,Math.min(20,Math.round(s0-(e.clientX-sx)/S)));if(v!==cur)setV(v)};ru.onpointerup=()=>{sx=null};
+document.getElementById('mn').onclick=()=>setV(cur-1);document.getElementById('pl').onclick=()=>setV(cur+1);
+document.getElementById('rbtn').onclick=()=>{sel.real=(sel.real!==null&&sel.sim===sel.real)?null:sel.sim;render()};
+document.getElementById('back').onclick=()=>{leaves(sel).forEach(l=>{if(l.real!==null)l.sim=l.real});cur=Math.round(val(sel));render()};
+render();
+</script></body></html>

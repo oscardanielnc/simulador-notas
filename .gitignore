@@ -1,0 +1,14 @@
+node_modules/
+.expo/
+dist/
+android/
+ios/
+*.apk
+*.aab
+.env
+input/
+CLAUDE.md
+.claude/
+coverage/
+expo-env.d.ts
+.expo-types/

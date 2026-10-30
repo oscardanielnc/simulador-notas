@@ -1,0 +1,73 @@
+{
+  "id": "sociologia",
+  "name": "Sociología",
+  "code": "0000AGEL0103",
+  "credits": 2,
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "u1",
+      "name": "Unidad I",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u1-pc",
+          "name": "PC",
+          "fullName": "Práctica calificada",
+          "weight": 40
+        },
+        {
+          "id": "u1-eval",
+          "name": "EVAL",
+          "fullName": "Evaluación",
+          "weight": 60
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "name": "Unidad II",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u2-pc",
+          "name": "PC",
+          "fullName": "Práctica calificada",
+          "weight": 40
+        },
+        {
+          "id": "u2-eval",
+          "name": "EVAL",
+          "fullName": "Evaluación",
+          "weight": 60
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "name": "Unidad III",
+      "weight": 40,
+      "children": [
+        {
+          "id": "u3-reg",
+          "name": "REG",
+          "fullName": "Registro",
+          "weight": 20
+        },
+        {
+          "id": "u3-ficha",
+          "name": "FICHA",
+          "fullName": "Ficha de calificación",
+          "weight": 30
+        },
+        {
+          "id": "u3-eval",
+          "name": "EVAL",
+          "fullName": "Evaluación",
+          "weight": 50
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "biologia-celular-molecular",
+  "name": "Biología Celular y Molecular",
+  "code": "0000BA0106",
+  "credits": 3,
+  "version": 1,
+  "childWeightUnit": "percent",
+  "children": [
+    {
+      "id": "u1",
+      "name": "Unidad I",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u1-te",
+          "name": "TE",
+          "fullName": "Trabajos encargados",
+          "weight": 20
+        },
+        {
+          "id": "u1-lab",
+          "name": "LAB",
+          "fullName": "Prácticas de laboratorio",
+          "weight": 30
+        },
+        {
+          "id": "u1-ep",
+          "name": "EP",
+          "fullName": "Examen parcial",
+          "weight": 50
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "name": "Unidad II",
+      "weight": 30,
+      "children": [
+        {
+          "id": "u2-te",
+          "name": "TE",
+          "fullName": "Trabajos encargados",
+          "weight": 20
+        },
+        {
+          "id": "u2-lab",
+          "name": "LAB",
+          "fullName": "Prácticas de laboratorio",
+          "weight": 30
+        },
+        {
+          "id": "u2-ep",
+          "name": "EP",
+          "fullName": "Examen parcial",
+          "weight": 50
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "name": "Unidad III",
+      "weight": 40,
+      "children": [
+        {
+          "id": "u3-te",
+          "name": "TE",
+          "fullName": "Trabajos encargados",
+          "weight": 20
+        },
+        {
+          "id": "u3-lab",
+          "name": "LAB",
+          "fullName": "Prácticas de laboratorio",
+          "weight": 30
+        },
+        {
+          "id": "u3-ef",
+          "name": "EF",
+          "fullName": "Examen final",
+          "weight": 50
+        }
+      ]
+    }
+  ]
+}
