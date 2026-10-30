@@ -6,7 +6,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "splash": { "backgroundColor": "#FFFFFF" },
+    "splash": {
+      "backgroundColor": "#FFFFFF"
+    },
     "android": {
       "package": "dev.oscarnavarro.simuladornotas",
       "edgeToEdgeEnabled": true
@@ -15,8 +17,22 @@
       "expo-router",
       "expo-sqlite",
       "expo-font",
-      ["expo-splash-screen", { "backgroundColor": "#FFFFFF" }]
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFFFFF"
+        }
+      ]
     ],
-    "experiments": { "typedRoutes": true }
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "73a8b04d-5e07-4440-b726-48cb640b6f08"
+      }
+    },
+    "owner": "oscardanieldev"
   }
 }
