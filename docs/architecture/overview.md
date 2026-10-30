@@ -18,7 +18,8 @@ src/
     grade-editor/      EditorSheet, RulerPicker
   compose/             screens that join features (CourseRoute = course-screen + grade-editor)
   ui/                  shared visual pieces: StarIcon, ProgressRing, ProgressBar, Pill
-  store/               grades.store.ts (Zustand + persist) — the only place that talks to storage
+  store/               grades.store.ts (Zustand + persist) — the only place that talks to storage;
+                       storage.ts on the phone, storage.web.ts for the recording build (ADR 0011)
   theme/               tokens.ts, fonts
   i18n/es.ts           all user-facing strings (Spanish)
 ```

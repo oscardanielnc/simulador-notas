@@ -1,4 +1,3 @@
-import Storage from 'expo-sqlite/kv-store';
 import { z } from 'zod';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -7,6 +6,8 @@ import * as grades from '@/core/grades';
 import type { CourseGrades } from '@/core/grades';
 import { findNode, type Course, type GradeNode } from '@/core/tree';
 import { courseById, courses } from '@/data/courses';
+
+import { storage } from './storage';
 
 export const SCHEMA_VERSION = 1;
 
@@ -75,7 +76,7 @@ export const useGradesStore = create<GradesState>()(
     {
       name: 'grades',
       version: SCHEMA_VERSION,
-      storage: createJSONStorage(() => Storage),
+      storage: createJSONStorage(() => storage),
       partialize: (s) => ({ grades: onlyReal(s.grades) }),
       merge: (saved, current) => ({ ...current, grades: hydrate(saved) }),
     },

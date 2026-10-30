@@ -47,6 +47,10 @@
       }
     },
     "owner": "oscardanieldev",
-    "icon": "./assets/icon.png"
+    "icon": "./assets/icon.png",
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    }
   }
 }

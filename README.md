@@ -58,4 +58,5 @@ pnpm install
 pnpm start        # Expo dev server
 pnpm check        # lint, typecheck, tests, unicode check
 pnpm build:apk    # Android APK through EAS
+pnpm web          # web build on :4180, only used to record the portfolio clip (ADR 0011)
 ```

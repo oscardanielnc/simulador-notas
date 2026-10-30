@@ -12,3 +12,4 @@ CLAUDE.md
 coverage/
 expo-env.d.ts
 .expo-types/
+dist-web/

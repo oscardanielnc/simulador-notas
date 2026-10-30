@@ -23,7 +23,16 @@ const feature = (name) => ({
 });
 
 export default defineConfig(
-  { ignores: ['node_modules/**', '.expo/**', 'dist/**', 'android/**', 'expo-env.d.ts'] },
+  {
+    ignores: [
+      'node_modules/**',
+      '.expo/**',
+      'dist/**',
+      'dist-web/**',
+      'android/**',
+      'expo-env.d.ts',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
