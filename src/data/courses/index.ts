@@ -11,8 +11,8 @@ import sociologia from './sociologia.json';
 
 /** Home order. Add a course: drop its JSON here (course-format.md). */
 export const templates: readonly unknown[] = [
-  gestion,
   sociologia,
+  gestion,
   antropologia,
   filosofia,
   lenguaje,

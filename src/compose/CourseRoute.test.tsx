@@ -21,11 +21,21 @@ const renderCourse = (courseId: string) =>
 const press = async (label: string, times = 1) => {
   for (let i = 0; i < times; i++) await fireEvent.press(screen.getByLabelText(label));
 };
+const firstText = (text: string) => {
+  const [first] = screen.getAllByText(text);
+  if (!first) throw new Error(`no ${text}`);
+  return first;
+};
 const stars = () => screen.queryAllByTestId('corner-star').length;
 
 beforeEach(() => useGradesStore.setState({ grades: {} }));
 
 describe('course screen', () => {
+  it('warns that only real grades are saved', async () => {
+    await renderCourse('sociologia');
+    expect(screen.getByText(/Solo se guardan las notas con estrella/)).toBeTruthy();
+  });
+
   it('starts every grade at 0 with the final grade selected', async () => {
     await renderCourse('matematica');
     expect(screen.getAllByText('Nota final')).toHaveLength(2); // final card + sheet title
@@ -34,13 +44,13 @@ describe('course screen', () => {
 
   it('selecting a chip shows its full name in the sheet', async () => {
     await renderCourse('antropologia');
-    await fireEvent.press(screen.getByText('EP1'));
-    expect(screen.getByText('EP1 · Examen parcial I')).toBeTruthy();
+    await fireEvent.press(firstText('EXAM'));
+    expect(screen.getByText('EXAM · Examen parcial I')).toBeTruthy();
   });
 
   it('+ changes the number and every parent', async () => {
     await renderCourse('antropologia');
-    await fireEvent.press(screen.getByText('EP1'));
+    await fireEvent.press(firstText('EXAM'));
     await press('Subir nota', 10);
     expect(screen.getAllByText('10').length).toBeGreaterThan(0);
     expect(screen.getByText('3.00')).toBeTruthy(); // Unidad I: 10 x 30%
@@ -49,7 +59,7 @@ describe('course screen', () => {
 
   it('shows and hides the real star like the EX1/EX2 scenario', async () => {
     await renderCourse('matematica');
-    await fireEvent.press(screen.getByText('EX1'));
+    await fireEvent.press(firstText('EXAM'));
     await press('Subir nota', 10);
     await fireEvent.press(screen.getByText('Marcar real'));
     expect(stars()).toBe(1);

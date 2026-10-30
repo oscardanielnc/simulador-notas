@@ -2,21 +2,20 @@
 
 ## Color (purple ramp)
 
-| Token        | Hex                  | Use                                       |
-| ------------ | -------------------- | ----------------------------------------- |
-| bg           | #FFFFFF              | Screen                                    |
-| surface      | #F6F5FE              | Criterion cards, bottom sheet             |
-| surfaceChip  | #FFFFFF              | Chips                                     |
-| tint         | #EEEDFE              | Buttons, back button                      |
-| track        | #E4E2FA              | Progress bar track                        |
-| muted        | #AFA9EC              | Weight labels, ruler ticks                |
-| secondary    | #7F77DD              | Labels, progress fill, selection border   |
-| accent       | #534AB7              | Final card bg, ruler indicator, ★         |
-| strong       | #3C3489              | Button text, real tick number             |
-| text         | #26215C              | Body text                                 |
-| danger       | #E24B4A              | Grades < 10.5                             |
-| dangerOnDark | #F09595              | Ring on the final card when failing       |
-| shadow       | rgba(83,74,183,0.08) | Cards (y 2, blur 12), chips (y 1, blur 6) |
+| Token       | Hex                  | Use                                       |
+| ----------- | -------------------- | ----------------------------------------- |
+| bg          | #FFFFFF              | Screen                                    |
+| surface     | #F6F5FE              | Criterion cards, bottom sheet             |
+| surfaceChip | #FFFFFF              | Chips                                     |
+| tint        | #EEEDFE              | Buttons, back button                      |
+| track       | #E4E2FA              | Progress bar track                        |
+| muted       | #AFA9EC              | Weight labels, ruler ticks                |
+| secondary   | #7F77DD              | Labels, progress fill, selection border   |
+| accent      | #534AB7              | Final card bg, ruler indicator, ★         |
+| strong      | #3C3489              | Button text, real tick number             |
+| text        | #26215C              | Body text                                 |
+| danger      | #E24B4A              | Grades < 10.5                             |
+| shadow      | rgba(83,74,183,0.08) | Cards (y 2, blur 12), chips (y 1, blur 6) |
 
 ## Type
 
@@ -31,3 +30,7 @@ Selection border: 2.5 dp `secondary`. Every card reserves the 2.5 dp transparent
 ## Motion
 
 Value changes: no animation on numbers (instant). Progress bar and ring: 150 ms ease-out. Selection border: 120 ms fade. Haptic selection tick on each integer.
+
+## Ring (changed 2026-10-30)
+
+Every ring sits on a white disc (soft chip shadow), on dark and light cards alike: track `tint`, progress `accent`, or `danger` when < 10.5. The center shows the rounded grade in `text` or `danger`. Replaces the white/`dangerOnDark` ring on purple, which Oscar found low-contrast.

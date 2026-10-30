@@ -4,11 +4,9 @@ export const es = {
   home: {
     title: 'Mis cursos',
     average: 'Promedio general',
-    noAverage: '—',
     progress: (complete: number, total: number, credits: number) =>
       `${complete} de ${total} cursos completos · ${credits} ${credits === 1 ? 'crédito' : 'créditos'}`,
     credits: (n: number) => `${n} ${n === 1 ? 'crédito' : 'créditos'}`,
-    hint: 'La ★ marca los cursos con todas sus notas reales. Solo esos cuentan en el promedio.',
   },
   course: {
     finalGrade: 'Nota final',
@@ -16,6 +14,8 @@ export const es = {
     back: 'Volver',
     open: (name: string) => `Abrir ${name}`,
     notFound: 'Curso no encontrado',
+    unsavedNotice:
+      'Solo se guardan las notas con estrella. Las demás vuelven a 0 al cerrar la app.',
   },
   editor: {
     showReal: 'Ver real',

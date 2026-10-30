@@ -79,9 +79,10 @@ describe('real marks', () => {
 });
 
 describe('onAppStart', () => {
-  it('real wins, otherwise keeps the last sim', () => {
+  it('keeps only real grades: unmarked simulations are lost and show 0', () => {
     const g = onAppStart({ a: { sim: 15, real: 10 }, b: { sim: 7, real: null } });
-    expect(g).toEqual({ a: { sim: 10, real: 10 }, b: { sim: 7, real: null } });
+    expect(g).toEqual({ a: { sim: 10, real: 10 } });
+    expect(gradeOf(g, 'b')).toEqual({ sim: 0, real: null });
   });
 });
 

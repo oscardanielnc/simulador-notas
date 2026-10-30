@@ -3,7 +3,7 @@
   "name": "Matemática",
   "code": "0000BA0102",
   "credits": 3,
-  "version": 1,
+  "version": 2,
   "childWeightUnit": "percent",
   "children": [
     {
@@ -13,17 +13,17 @@
       "children": [
         {
           "id": "u1-te",
-          "name": "TE1",
+          "name": "PC/TE",
           "weight": 15
         },
         {
           "id": "u1-ex",
-          "name": "EX1",
+          "name": "EXAM",
           "weight": 75
         },
         {
           "id": "u1-es",
-          "name": "ES1",
+          "name": "ES",
           "weight": 10
         }
       ]
@@ -35,17 +35,17 @@
       "children": [
         {
           "id": "u2-te",
-          "name": "TE2",
+          "name": "PC/TE",
           "weight": 15
         },
         {
           "id": "u2-ex",
-          "name": "EX2",
+          "name": "EXAM",
           "weight": 75
         },
         {
           "id": "u2-es",
-          "name": "ES2",
+          "name": "ES",
           "weight": 10
         }
       ]
@@ -57,17 +57,17 @@
       "children": [
         {
           "id": "u3-te",
-          "name": "TE3",
+          "name": "PC/TE",
           "weight": 15
         },
         {
           "id": "u3-ex",
-          "name": "EX3",
+          "name": "EXAM",
           "weight": 75
         },
         {
           "id": "u3-es",
-          "name": "ES3",
+          "name": "ES",
           "weight": 10
         }
       ]

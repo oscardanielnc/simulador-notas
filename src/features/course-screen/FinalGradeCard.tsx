@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { formatGrade, isFailing } from '@/core/grading';
+import { formatGrade, roundOfficial } from '@/core/grading';
 import { es } from '@/i18n/es';
 import { color, font, numbers, radius, selectable, shadow, size } from '@/theme/tokens';
 import { ProgressRing } from '@/ui/ProgressRing';
@@ -16,7 +16,6 @@ interface Props {
 
 /** Darkest card: the most important number on screen. */
 export function FinalGradeCard({ label, value, selected, real, onPress }: Props) {
-  const failing = isFailing(value);
   return (
     <Pressable
       onPress={onPress}
@@ -32,12 +31,7 @@ export function FinalGradeCard({ label, value, selected, real, onPress }: Props)
           <Text style={styles.outOf}> {es.course.outOf}</Text>
         </Text>
       </View>
-      <ProgressRing
-        value={value}
-        size={80}
-        color={failing ? color.dangerOnDark : color.onDark}
-        track={color.onDarkTrack}
-      />
+      <ProgressRing value={value} size={76} label={String(roundOfficial(value))} />
     </Pressable>
   );
 }

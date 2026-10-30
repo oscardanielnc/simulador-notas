@@ -29,35 +29,39 @@ const completeCourse = async (courseId: string, units: Record<string, number>) =
 beforeEach(() => useGradesStore.setState({ grades: {} }));
 
 describe('home', () => {
-  it('lists the 7 courses with code and credits', async () => {
+  it('lists the 7 courses in order with code and credits', async () => {
     await renderHome();
-    expect(screen.getAllByRole('button')).toHaveLength(7);
-    expect(screen.getByText('Biología Celular y Molecular')).toBeTruthy();
-    expect(screen.getByText('0000AGEL0103 · 2 créditos')).toBeTruthy();
+    const cards = screen.getAllByRole('button');
+    expect(cards).toHaveLength(7);
+    expect(cards[0]).toHaveAccessibleName('Abrir Sociología');
+    expect(cards[1]).toHaveAccessibleName('Abrir Gestión de la Información');
+    expect(screen.getByText('0000AGEL0103')).toBeTruthy();
+    expect(screen.getAllByText('2 créditos')).toHaveLength(3);
   });
 
-  it('shows a dash until a course is complete', async () => {
+  it('starts at 0.00 counting every credit', async () => {
     await renderHome();
-    expect(screen.getByTestId('general-average')).toHaveTextContent('— /20');
-    expect(screen.getByText('0 de 7 cursos completos · 0 créditos')).toBeTruthy();
+    expect(screen.getByTestId('general-average')).toHaveTextContent('0.00 /20');
+    expect(screen.getByText('0 de 7 cursos completos · 18 créditos')).toBeTruthy();
   });
 
-  it('a complete course gets its star and enters the average', async () => {
+  it('a complete course gets its star; the average uses every course', async () => {
     await renderHome();
     await completeCourse('gestion-informacion', { u1: 14, u2: 13, u3: 15 }); // 14.1 -> 14
     expect(screen.getByLabelText('Curso completo')).toBeTruthy();
-    expect(screen.getByTestId('general-average')).toHaveTextContent('14.00 /20');
+    expect(screen.getByTestId('general-average')).toHaveTextContent('2.33 /20'); // 14x3 / 18
 
     await completeCourse('filosofia-general', { u1: 10, u2: 10, u3: 11 }); // 10.4 -> 10
-    expect(screen.getByTestId('general-average')).toHaveTextContent('12.40 /20'); // (14x3 + 10x2) / 5
-    expect(screen.getByText('2 de 7 cursos completos · 5 créditos')).toBeTruthy();
+    expect(screen.getByTestId('general-average')).toHaveTextContent('3.44 /20'); // (42 + 20) / 18
+    expect(screen.getByText('2 de 7 cursos completos · 18 créditos')).toBeTruthy();
   });
 
-  it('simulating without marking real does not change the average', async () => {
+  it('simulated grades count in the average too', async () => {
     await renderHome();
     await act(() => useGradesStore.getState().setValue('matematica', 'final', 20));
     expect(screen.getByText('20.00')).toBeTruthy();
-    expect(screen.getByTestId('general-average')).toHaveTextContent('— /20');
+    expect(screen.getByTestId('general-average')).toHaveTextContent('3.33 /20'); // 20x3 / 18
+    expect(screen.queryByLabelText('Curso completo')).toBeNull();
   });
 
   it('opens a course', async () => {

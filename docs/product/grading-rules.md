@@ -50,10 +50,10 @@ Single source of truth for every calculation. All of these live in `src/core/` a
 
 ## Course completion and general average (home)
 
-Decided by Oscar on 2026-10-30.
+Decided by Oscar on 2026-10-30, changed the same day (ADR 0009).
 
 - A course is **complete** when every leaf has `real !== null`. Complete courses get ★ on their home card.
-- The general average uses **only real grades** and **only complete courses**.
-- Course grade for the average = `value()` of the root using each leaf's `real`, then **rounded to an integer** the way the university does (half up: 10.5 → 11, 10.49 → 10). Guard float noise with a small epsilon.
-- `generalAverage = Σ round(realGrade) × credits / Σ credits` over complete courses, shown with 2 decimals. No complete course → `null` (shown as `—`).
-- Example: Sociología (2 cr) real 13.6 → 14, Matemática (3 cr) real 10.5 → 11 → (14×2 + 11×3) / 5 = 12.20.
+- The general average counts **every course from day one**, with the grade shown on its card (real or simulated; unmarked grades are 0 after a restart).
+- Course grade for the average = `value()` of the root, **rounded to an integer** half up (10.5 → 11, 10.49 → 10), with a small epsilon against float noise. The ring on each card shows that integer.
+- `generalAverage = Σ round(courseGrade) × credits / Σ credits` over all courses, 2 decimals. 0.00 when nothing is graded.
+- Example: Gestión (3 cr) 14.1 → 14, Filosofía (2 cr) 10.4 → 10, the other 13 credits at 0 → (42 + 20) / 18 = 3.44.

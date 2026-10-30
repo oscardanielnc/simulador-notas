@@ -23,8 +23,8 @@ describe('course templates', () => {
 
   it('ships the 7 courses with code and credits', () => {
     expect(courses.map((c) => [c.code, c.credits])).toEqual([
-      ['0000AGEL0101', 3],
       ['0000AGEL0103', 2],
+      ['0000AGEL0101', 3],
       ['0000AGEL0102', 2],
       ['0000AGEL0215', 2],
       ['0000BA0101', 3],
@@ -37,7 +37,7 @@ describe('course templates', () => {
     for (const c of courses) {
       for (const leaf of leaves(c.root)) {
         if (leaf.children.length === 0 && c.root.children.includes(leaf)) continue;
-        expect(leaf.name.length).toBeLessThanOrEqual(5);
+        expect(leaf.name.length).toBeLessThanOrEqual(8);
       }
     }
   });

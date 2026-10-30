@@ -69,11 +69,11 @@ export function rulerStar(node: GradeNode, grades: CourseGrades): number | null 
   return reals.every((r) => r === first) ? first : null;
 }
 
-/** App start: real wins, otherwise the last sim. */
+/** Only real grades survive a restart: each leaf shows its real value, everything else is 0. */
 export function onAppStart(grades: CourseGrades): CourseGrades {
   const next: Record<string, LeafGrade> = {};
   for (const [id, g] of Object.entries(grades)) {
-    next[id] = g.real === null ? g : { ...g, sim: g.real };
+    if (g.real !== null) next[id] = { sim: g.real, real: g.real };
   }
   return next;
 }

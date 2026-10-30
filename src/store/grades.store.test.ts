@@ -1,7 +1,7 @@
 import { gradeOf } from '@/core/grades';
 import { courseById } from '@/data/courses';
 
-import { hydrate, useGradesStore } from './grades.store';
+import { hydrate, onlyReal, useGradesStore } from './grades.store';
 
 const MAT = 'matematica';
 const grades = () => useGradesStore.getState().grades[MAT] ?? {};
@@ -40,6 +40,14 @@ describe('hydrate', () => {
   const mat = courseById(MAT);
   if (!mat) throw new Error('fixture');
 
+  it('saves only real grades', () => {
+    expect(
+      onlyReal({ [MAT]: { 'u1-ex': { sim: 18, real: 11 }, 'u1-te': { sim: 7, real: null } } }),
+    ).toEqual({
+      [MAT]: { 'u1-ex': { sim: 11, real: 11 } },
+    });
+  });
+
   it('applies real wins and drops stale leaves and courses', () => {
     const saved = {
       grades: {
@@ -52,7 +60,7 @@ describe('hydrate', () => {
       },
     };
     expect(hydrate(saved, [mat])).toEqual({
-      [MAT]: { 'u1-ex': { sim: 11, real: 11 }, 'u1-te': { sim: 7, real: null } },
+      [MAT]: { 'u1-ex': { sim: 11, real: 11 } },
     });
   });
 

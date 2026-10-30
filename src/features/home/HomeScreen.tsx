@@ -36,7 +36,6 @@ export function HomeScreen({ onOpen }: { onOpen: (courseId: string) => void }) {
           />
         ))}
       </View>
-      <Text style={styles.hint}>{es.home.hint}</Text>
     </ScrollView>
   );
 }
@@ -52,11 +51,4 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   list: { gap: space.gap },
-  hint: {
-    fontFamily: font.regular,
-    fontSize: size.small,
-    color: color.secondary,
-    textAlign: 'center',
-    marginTop: 16,
-  },
 });

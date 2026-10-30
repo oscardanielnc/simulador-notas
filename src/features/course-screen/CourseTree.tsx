@@ -7,6 +7,7 @@ import { space } from '@/theme/tokens';
 
 import { CriterionCard } from './CriterionCard';
 import { FinalGradeCard } from './FinalGradeCard';
+import { UnsavedNotice } from './UnsavedNotice';
 
 interface Props {
   courseId: string;
@@ -23,6 +24,7 @@ export function CourseTree({ courseId, head, headLabel, selectedId, onSelect, on
   const grades = useCourseGrades(courseId);
   return (
     <ScrollView contentContainerStyle={styles.content}>
+      <UnsavedNotice />
       <FinalGradeCard
         label={headLabel}
         value={simValue(head, grades)}

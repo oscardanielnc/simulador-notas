@@ -33,7 +33,7 @@ const savedSchema = z.object({
   ),
 });
 
-/** Hydration: keep known courses, reconcile with the template, real wins (F05). */
+/** Hydration: keep known courses, reconcile with the template, only real grades survive (F05). */
 export function hydrate(saved: unknown, list: readonly Course[] = courses): AllGrades {
   const parsed = savedSchema.safeParse(saved);
   if (!parsed.success) return {};
@@ -42,6 +42,13 @@ export function hydrate(saved: unknown, list: readonly Course[] = courses): AllG
     const g = parsed.data.grades[course.id];
     if (g) next[course.id] = grades.onAppStart(grades.reconcile(g, course.root));
   }
+  return next;
+}
+
+/** What reaches the phone storage: real grades only (ADR 0009). */
+export function onlyReal(all: AllGrades): AllGrades {
+  const next: Record<string, CourseGrades> = {};
+  for (const [courseId, g] of Object.entries(all)) next[courseId] = grades.onAppStart(g);
   return next;
 }
 
@@ -69,7 +76,7 @@ export const useGradesStore = create<GradesState>()(
       name: 'grades',
       version: SCHEMA_VERSION,
       storage: createJSONStorage(() => Storage),
-      partialize: (s) => ({ grades: s.grades }),
+      partialize: (s) => ({ grades: onlyReal(s.grades) }),
       merge: (saved, current) => ({ ...current, grades: hydrate(saved) }),
     },
   ),

@@ -13,9 +13,7 @@ export const color = {
   strong: '#3C3489',
   text: '#26215C',
   danger: '#E24B4A',
-  dangerOnDark: '#F09595',
   onDark: '#FFFFFF',
-  onDarkTrack: 'rgba(255,255,255,0.22)',
   starOnDark: '#CECBF6',
 } as const;
 

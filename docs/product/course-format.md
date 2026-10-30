@@ -57,5 +57,5 @@ Rules
 Naming (Oscar, 2026-10-30)
 
 - Sections (direct children of the root) keep their full name: "Unidad III".
-- Leaves render as chips and use a short code: PC (práctica calificada), EP/EF (examen parcial/final), LAB, TE (trabajos encargados), EG (exposición grupal), PT (plan de trabajo), CAMPO, REG, FICHA, EVAL. The long name goes in `fullName` and is shown in the editor sheet.
+- Leaves render as chips with a short code (Oscar, 2026-10-30): EXAM for every exam (no partial/final, no number), PC (práctica calificada), PC/TE (prácticas or trabajos encargados), LAB, ES, EXPO GRU (exposición grupal), PLAN T (plan de trabajo), CAMPO, REG, FICHA, EVAL. Max 8 characters.
 - Leaf ids are `<unit>-<code>` (`u3-ef`) and never change.
