@@ -6,12 +6,12 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "splash": {
-      "backgroundColor": "#FFFFFF"
-    },
     "android": {
       "package": "dev.oscarnavarro.simuladornotas",
-      "edgeToEdgeEnabled": true
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#534AB7"
+      }
     },
     "plugins": [
       "expo-router",
@@ -20,6 +20,8 @@
       [
         "expo-splash-screen",
         {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 140,
           "backgroundColor": "#FFFFFF"
         }
       ]
@@ -33,6 +35,7 @@
         "projectId": "73a8b04d-5e07-4440-b726-48cb640b6f08"
       }
     },
-    "owner": "oscardanieldev"
+    "owner": "oscardanieldev",
+    "icon": "./assets/icon.png"
   }
 }
