@@ -1,32 +1,25 @@
 import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+  cancelAnimation,
   Easing,
-  interpolate,
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  type SharedValue,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { es } from '@/i18n/es';
-import { isFailing } from '@/core/grading';
-import { color, font, numbers } from '@/theme/tokens';
-import { StarIcon } from '@/ui/StarIcon';
 
-/** Distance between two integers (ADR 0005: at least 32 dp). */
-export const STEP = 48;
-const MAX = 20;
-const HEIGHT = 100;
-const TICKS = Array.from({ length: MAX + 1 }, (_, i) => i);
-const clamp = (v: number) => {
-  'worklet';
-  return Math.min(MAX, Math.max(0, v));
-};
+import { clampGrade, createCommitGate, flingTarget, MAX_GRADE, tapTarget } from './ruler-logic';
+import { STEP, styles, Tick } from './RulerTick';
+
+export { STEP };
+
+const TICKS = Array.from({ length: MAX_GRADE + 1 }, (_, i) => i);
 
 interface Props {
   value: number;
@@ -36,79 +29,84 @@ interface Props {
 }
 
 /**
- * One floating number + line. The number at the center grows into the big current grade,
- * so the picker is the only place the value is shown (F03).
- */
-function Tick({ i, pos, star }: { i: number; pos: SharedValue<number>; star: boolean }) {
-  const near = useAnimatedStyle(() => {
-    const d = Math.abs(i - pos.get());
-    return {
-      opacity: interpolate(d, [0, 1, 4], [1, 0.55, 0.15], 'clamp'),
-      transform: [{ scale: interpolate(d, [0, 1, 3], [2.1, 1, 0.85], 'clamp') }],
-    };
-  });
-  return (
-    <View style={[styles.tick, { left: i * STEP }]}>
-      <View style={styles.starSlot}>{star && <StarIcon size={14} />}</View>
-      <Animated.Text
-        style={[styles.number, isFailing(i) && styles.failing, star && styles.realNumber, near]}
-      >
-        {i}
-      </Animated.Text>
-      <View style={[styles.line, i % 5 === 0 && styles.longLine]} />
-    </View>
-  );
-}
-
-/**
- * Floating numbers that slide under a fixed center line.
- * The finger and the fling run on the UI thread; JS hears only whole integers.
+ * Floating numbers that slide under a fixed center line. Drag, fling or tap a number.
+ * The strip runs on the UI thread. Every touch ends with one explicit commit of the
+ * whole number it lands on, so the card can never keep a number the ruler is not showing.
  */
 export function RulerPicker({ value, onChange, star }: Props) {
+  const [gate] = useState(() => createCommitGate(value));
   const [width, setWidth] = useState(0);
   const pos = useSharedValue(value);
   const start = useSharedValue(value);
-  const touching = useSharedValue(false);
+  const gen = useSharedValue(0);
+  const settledGen = useSharedValue(0);
+  const dragging = useSharedValue(false);
+  const landing = useSharedValue(false);
 
+  // Values the picker reported are already on screen; only outside changes move the strip.
   useEffect(() => {
-    if (touching.get()) return;
+    if (!gate.isOutside(value) || dragging.get()) return;
     pos.set(withTiming(value, { duration: 180, easing: Easing.out(Easing.cubic) }));
-  }, [value, pos, touching]);
+  }, [value, pos, dragging, gate]);
 
-  const emit = (v: number) => {
-    void Haptics.selectionAsync();
-    onChange(v);
-  };
+  const live = (g: number, v: number) => gate.live(g, v) && onChange(v);
+  const commit = (g: number, v: number) => gate.commit(g, v) && onChange(v);
+  const tick = () => void Haptics.selectionAsync();
 
   useAnimatedReaction(
     () => Math.round(pos.get()),
     (now, before) => {
-      if (touching.get() && before !== null && now !== before) scheduleOnRN(emit, now);
+      if (before === null || now === before) return;
+      if (dragging.get() || landing.get()) scheduleOnRN(tick);
+      if (dragging.get()) scheduleOnRN(live, gen.get(), now);
     },
   );
 
+  /** Lands on a whole number and tells JS right away, before the animation ends. */
+  const settle = (target: number) => {
+    'worklet';
+    const g = gen.get();
+    settledGen.set(g);
+    const distance = Math.abs(target - pos.get());
+    landing.set(true);
+    pos.set(
+      withTiming(
+        target,
+        { duration: 160 + Math.min(distance, 6) * 50, easing: Easing.out(Easing.cubic) },
+        () => {
+          if (gen.get() === g) landing.set(false);
+        },
+      ),
+    );
+    scheduleOnRN(commit, g, target);
+  };
+
   const pan = Gesture.Pan()
     .onBegin(() => {
-      touching.set(true);
+      gen.set(gen.get() + 1);
+      cancelAnimation(pos);
       start.set(pos.get());
     })
     .onUpdate((e) => {
-      pos.set(clamp(start.get() - e.translationX / STEP));
+      dragging.set(true);
+      pos.set(clampGrade(start.get() - e.translationX / STEP));
     })
     .onEnd((e) => {
-      // Fling: carry the velocity a little further, then land on a whole number.
-      const target = Math.round(clamp(pos.get() - (e.velocityX / STEP) * 0.18));
-      const distance = Math.abs(target - pos.get());
-      pos.set(
-        withTiming(
-          target,
-          { duration: 160 + Math.min(distance, 6) * 50, easing: Easing.out(Easing.cubic) },
-          () => touching.set(false),
-        ),
-      );
+      dragging.set(false);
+      settle(flingTarget(pos.get(), e.velocityX, STEP));
     })
-    .onFinalize((_, success) => {
-      if (!success) touching.set(false);
+    .onFinalize(() => {
+      dragging.set(false);
+      // A touch that stopped the strip without dragging still lands on a whole number.
+      if (settledGen.get() !== gen.get()) settle(Math.round(pos.get()));
+    });
+
+  const tap = Gesture.Tap()
+    .maxDistance(10)
+    .onEnd((e, success) => {
+      if (!success) return;
+      gen.set(gen.get() + 1);
+      settle(tapTarget(pos.get(), e.x, width, STEP));
     });
 
   const strip = useAnimatedStyle(() => ({
@@ -116,17 +114,19 @@ export function RulerPicker({ value, onChange, star }: Props) {
   }));
 
   return (
-    <GestureDetector gesture={pan}>
+    <GestureDetector
+      gesture={Gesture.Race(pan.withTestId('ruler-pan'), tap.withTestId('ruler-tap'))}
+    >
       <View
         style={styles.ruler}
         onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
         accessible
         accessibilityRole="adjustable"
         accessibilityLabel={es.editor.ruler}
-        accessibilityValue={{ min: 0, max: MAX, now: value }}
+        accessibilityValue={{ min: 0, max: MAX_GRADE, now: value }}
         accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
         onAccessibilityAction={(e) =>
-          onChange(clamp(value + (e.nativeEvent.actionName === 'increment' ? 1 : -1)))
+          onChange(clampGrade(value + (e.nativeEvent.actionName === 'increment' ? 1 : -1)))
         }
       >
         <Animated.View style={[styles.strip, strip]}>
@@ -139,43 +139,3 @@ export function RulerPicker({ value, onChange, star }: Props) {
     </GestureDetector>
   );
 }
-
-const TICK_BOX = 34;
-
-const styles = StyleSheet.create({
-  ruler: { height: HEIGHT, overflow: 'hidden' },
-  strip: { position: 'absolute', top: 0, bottom: 0, left: 0, width: (MAX + 1) * STEP },
-  tick: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    width: TICK_BOX,
-    marginLeft: -TICK_BOX / 2,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 4,
-  },
-  starSlot: { height: 16, justifyContent: 'center', marginBottom: 14 },
-  number: {
-    ...numbers,
-    fontFamily: font.semibold,
-    fontSize: 17,
-    lineHeight: 22,
-    color: color.text,
-    marginBottom: 16,
-  },
-  failing: { color: color.danger },
-  realNumber: { color: color.accent },
-  line: { width: 1.5, height: 10, borderRadius: 1, backgroundColor: color.muted },
-  longLine: { height: 18 },
-  indicator: {
-    position: 'absolute',
-    left: '50%',
-    bottom: 0,
-    width: 3,
-    height: 22,
-    marginLeft: -1.5,
-    borderRadius: 2,
-    backgroundColor: color.accent,
-  },
-});
